@@ -1,3 +1,23 @@
+<?php
+session_start(); // Ensure session_start is at the top to use $_SESSION
+
+// Handling error messages
+if (isset($_SESSION['error'])) {
+    $errorMessage = $_SESSION['error']; // Store the message in a variable
+    unset($_SESSION['error']); // Remove the message from the session
+} else {
+    $errorMessage = ""; // No error message
+}
+
+// Handling success messages
+if (isset($_SESSION['success'])) {
+    $successMessage = $_SESSION['success'];
+    unset($_SESSION['success']);
+} else {
+    $successMessage = "";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,112 +26,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Gallery Photo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        .scrollbar-hide {
-            scrollbar-width: none;
-            /* Untuk Firefox */
-            -ms-overflow-style: none;
-            /* Untuk Internet Explorer */
-        }
-
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-            /* Untuk browser berbasis WebKit (Chrome, Safari, dll.) */
-        }
+        <?php include 'style.css'; ?>
     </style>
 </head>
 
 <body>
-    <div class="h-screen flex justify-center items-center bg-neutral-600">
-        <div class="h-[26em] w-[50em] p-4 bg-white rounded-lg">
-            <p class="pb-2 font-medium text-[1.5rem]">mending lu daftar dah</p>
-            <form 
-            required 
-            action="register_process.php" 
-            method="post">
-                <div class="flex pb-[1em]">
-                    <div class="flex flex-col gap-[1em] w-[50%]">
-                        <div class="flex flex-col">
-                            <label 
-                            for="username" 
-                            class="pb-1">Username</label>
-                            <input 
-                            type="text" 
-                            name="username" id="username"
-                            class="p-2 border-2 border-gray-300 rounded-md w-[93%]">
-                        </div>
-                        <div class="flex flex-col">
-                            <label 
-                            for="email" 
-                            class="pb-1">Email</label>
-                            <input 
-                            type="email" 
-                            name="email" 
-                            id="email"
-                            class="p-2 border-2 border-gray-300 rounded-md w-[93%]">
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-[1em] w-[50%]">
-                        <div class="flex flex-col">
-                            <label 
-                            for="fullname" 
-                            class="pb-1">Fullname</label>
-                            <input 
-                            type="text" 
-                            name="fullname" 
-                            id="fullname"
-                            class="p-2 border-2 border-gray-300 rounded-md w-[95%]">
-                        </div>
-                        <div class="flex flex-col">
-                            <label 
-                            for="password" 
-                            class="pb-1">Password</label>
-                            <input 
-                            type="password" 
-                            name="password" 
-                            id="password"
-                            class="p-2 border-2 border-gray-300 rounded-md w-[95%]">
-                        </div>
-                    </div>
+    <div class="h-screen flex justify-center items-center bg-[#2C3333]">
+        <div class="h-[26em] w-[40em] p-4 rounded-lg">
+            <h1 class="pb-2 font-medium text-center text-[#E7F6F2] text-[1.5rem]">Register</h1>
+            <p class="pb-[2em] text-[#E7F6F2] text-center">Create your account</p>
+            <form aria-required="true" action="register_process.php" method="post" class="text-[#E7F6F2]" autocomplete="off">
+                <div class="grid grid-cols-2 gap-[1em] mb-[1em] text-[#E7F6F2] justify-center">
+                    <input type="text" name="username" id="username" placeholder="Username" required
+                        class="p-2 border-2 border-[#395B64] rounded-md w-[100%] h-[3.5em] bg-transparent text-[#E7F6F2] text-[0.875rem] outline-none focus:border-[#A5C9CA] transition duration-[0.1s]">
+                    <input type="text" name="fullname" id="fullname" placeholder="Fullname" required
+                        class="p-2 border-2 border-[#395B64] rounded-md w-[100%] h-[3.5em] bg-transparent text-[#E7F6F2] text-[0.875rem] outline-none focus:border-[#A5C9CA] transition duration-[0.1s]">
+                    <input type="email" name="email" id="email" placeholder="Email" required
+                        class="p-2 border-2 border-[#395B64] rounded-md w-[100%] h-[3.5em] bg-transparent text-[#E7F6F2] text-[0.875rem] outline-none focus:border-[#A5C9CA] transition duration-[0.1s]">
+                    <input type="password" name="password" id="password" placeholder="Password"
+                        class="p-2 border-2 border-[#395B64] rounded-md w-[100%] h-[3.5em] bg-transparent text-[#E7F6F2] text-[0.875rem] outline-none focus:border-[#A5C9CA] transition duration-[0.1s]">
                 </div>
-                <div class="flex flex-col">
-                    <label 
-                    for="address" 
-                    class="pb-1">Address</label>
-                    <input 
-                    for="address" 
-                    name="address" 
-                    id="address"
-                    class="p-2 border-2 border-gray-300 rounded-md w-[97.5%]">
-                    </input>
-                    <div class="pt-[1em]">
-                        <input type="submit" value="Register"
-                            class="w-[7em] h-[2.5em] bg-blue-500 text-white rounded-md">
+                <input for="address" name="address" id="address" placeholder="Address" required
+                    class="p-2 mb-[1em] border-2 border-[#395B64] rounded-md w-[100%] h-[3.5em] bg-transparent text-[#E7F6F2] text-[0.875rem] outline-none focus:border-[#A5C9CA] transition duration-[0.1s]">
+                <?php if ($errorMessage != ""): ?>
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <span class="block sm:inline">
+                            <?php echo $errorMessage; ?>
+                        </span>
                     </div>
+                <?php endif; ?>
+                <?php if ($successMessage != ""): ?>
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+                        role="alert">
+                        <span class="block sm:inline">
+                            <?php echo $successMessage; ?>
+                        </span>
+                    </div>
+                <?php endif; ?>
+                <button type="submit" class="p-2 border-2 w-[100%] border-[#A5C9CA] rounded-md text-[#A5C9CA] text-semibold hover:bg-[#A5C9CA]
+                    hover:text-[#2C3333] transition duration-[0.2s]">Register</button>
             </form>
-            <p class="pt-[1em]">Sudah daftar? <a href="login.php" class="text-blue-500">Login</a></p>
+            <p class="pt-4 text-[0.875rem] text-center text-[#E7F6F2]">Already have an account? <a href="login.php"
+                    class="text-blue-500 hover:underline">Login</a></p>
         </div>
     </div>
 </body>

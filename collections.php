@@ -12,7 +12,9 @@ if (!isset($_SESSION['id_user'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Gallery Photo</title>
+    <title>
+        <?= $_SESSION['username'] ?>'s Album
+    </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         <?php include 'style.css'; ?>
@@ -25,9 +27,9 @@ if (!isset($_SESSION['id_user'])) {
             <div class="flex justify-between items-center bg-[#2C3333] h-[7em] px-[12em]">
                 <form action="/search_result.php" class="max-w-[480px] w-full px-4" required>
                     <div class="relative flex items-center">
-                        <input type="text" name="search" placeholder="Go find something..."
-                            class="w-full h-12 text-white border-[2px] border-[#395B64] text-[0.875rem] te p-4 rounded-full transition duration-[0.2s] bg-transparent hover:bg-[#353e3e] focus:outline-none focus:border-[#A5C9CA] focus:bg-[#434846] focus:placeholder-transparent" required>
-                        <button type="submit">
+                        <input type="text" placeholder="Go find something..." required
+                            class="w-full h-12 text-white border-[2px] border-[#395B64] text-[0.875rem] te p-4 rounded-full transition duration-[0.2s] bg-transparent hover:bg-[#353e3e] focus:outline-none focus:border-[#A5C9CA] focus:bg-[#434846] focus:placeholder-transparent ">
+                        <button type="submit" class="">
                             <svg class="fill-[#A5C9CA] h-4 w-4 absolute top-4 right-4"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 version="1.1" x="0px" y="0px" viewBox="0 0 56.966 56.966"
@@ -79,32 +81,66 @@ if (!isset($_SESSION['id_user'])) {
             </div>
         </header>
         <main class="flex justify-center bg-[#2C3333]">
-            <div class="flex flex-col bg-[#2C3333] w-[72.5%] h-[43em] my-[1em]">
-                <h1 class="text-[#E7F6F2] text-[3rem] select-none">Welcome, <b>
-                        <?php echo $_SESSION['username']; ?>
-                    </b> </h1>
-                <br>
-                <h1 class="text-[#E7F6F2] text-[1.5em] font-semibold">Explore</h1>
-                <br>
-                <div class="flex flex-wrap justify-center gap-[2em]">
-                    <?php
-                    include_once 'connection.php';
-                    $sql = mysqli_query($conn, 'SELECT * FROM photo ORDER BY RAND()');
-                    while ($data = mysqli_fetch_array($sql)) {
-                        ?>
-                        <a href="./detail_photo.php?id_photo=<?= $data['id_photo'] ?>?id_user=<?= $data['id_user']?> "
-                            class="text-[#E7F6F2] hover:text-[#a6b1ae] transition duration-[0.2s]">
-                            <img src="<?= $data['file_path'] ?>" alt="photo"
-                                class="w-[15em] h-[15em] object-cover rounded-md border-2 border-[#395B64] hover:scale-105 hover:border-[#E7F6F2] transition duration-[0.2s]">
+            <div class="mb-[3em] flex flex-col items-center bg-[#2C3333] w-[80%]">
+                <h1 class="mt-[1em] text-[3em] text-[#E7F6F2]"><b>
+                        <a href="./profile_user.php?id_user=<?= $_SESSION['id_user'] ?>">
+                            <?= $_SESSION['username'] ?>
                         </a>
-                        <?php
+                    </b>'s Collections</h1>
+                <br>
+                <br>
+                <h1 class="text-[2em] font-semibold text-[#E7F6F2]">Albums</h1>
+                <div class="flex flex-wrap justify-center gap-[1em] mt-[1em]">
+                    <?php
+                    include('connection.php');
+                    $id_user = $_SESSION['id_user'];
+                    $sql = mysqli_query($conn, "SELECT * FROM album WHERE id_user = '$id_user'");
+                    if ($sql->num_rows == 0) {
+                        echo '<h1 class="text-[#E7F6F2] italic">You have no albums</h1>';
+                    } else {
+                        while ($row = mysqli_fetch_array($sql)) {
+                            ?>
+                            <div class="p-4"><a
+                                    href="./detail_album.php?id_album=<?= $row['id_album'] ?>?id_user=<?= $row['id_user'] ?>">
+                                    <label class="text-[#E7F6F2] italic">
+                                        <?= $row['album_name'] ?>
+                                    </label>
+                                    <img src="./image-folder.png" alt="image-folder"
+                                        class="w-[250px] h-[250px] text-[#E7F6F2] cursor-pointer hover:scale-105 transition duration-[0.2s] object-cover">
+                                </a>
+                            </div>
+                            <?php
+                        }
                     }
                     ?>
                 </div>
                 <br>
                 <br>
-                <h1 class="text-[#a6b1ae] text-center ">You've reached the end.</h1>
-                <br>
+                <h1 class="text-[2em] font-semibold text-[#E7F6F2]">Photos</h1>
+                <div class="flex flex-wrap justify-center gap-[1em] mt-[1em]">
+                    <?php
+                    include('connection.php');
+                    $id_user = $_SESSION['id_user'];
+                    $sql = mysqli_query($conn, "SELECT * FROM photo WHERE id_user = '$id_user'");
+                    if (mysqli_num_rows($sql) == 0) {
+                        echo '<label class="text-[#E7F6F2] italic">No photos</label>';
+                    } else {
+                        while ($row = mysqli_fetch_array($sql)) {
+                            ?>
+                            <div class="p-4 hover:scale-105 transition duration-[0.2s]"><a
+                                    href="./detail_photo.php?id_photo=<?= $row['id_photo'] ?>?id_user=<?= $row['id_user'] ?>">
+                                    <label class="text-[#E7F6F2] italic">
+                                        <?= $row['title_photo'] ?>
+                                    </label>
+                                    <img src="<?= $row['file_path'] ?>" alt="photo"
+                                        class="w-[15em] h-[15em] object-cover rounded-md border-2 border-[#395B64] hover:border-[#E7F6F2] transition duration-[0.2s]">
+                                </a>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
+                </div>
             </div>
         </main>
     </div>

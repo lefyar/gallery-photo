@@ -126,7 +126,6 @@ foreach ($searchQueries as $query) {
                         } ?>
                     </div>
                 </div>
-                <!-- Photos -->
                 <div>
                     <h1 class="text-[3em] font-semibold text-[#E7F6F2] mb-4">Photos</h1>
                     <?php foreach ($results['photo'] as $photo): ?>
@@ -143,7 +142,6 @@ foreach ($searchQueries as $query) {
                         echo '<p class="text-[#E7F6F2]">No photos found.</p>';
                     } ?>
                 </div>
-                <!-- Users -->
                 <div>
                     <h1 class="text-[3em] font-semibold text-[#E7F6F2] mb-4">Users</h1>
                     <?php foreach ($results['user'] as $user): ?>

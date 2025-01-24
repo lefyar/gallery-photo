@@ -17,5 +17,4 @@ if (!isset($_SESSION['id_user'])) {
         $unlike = mysqli_query($conn, "DELETE FROM like_photo WHERE id_photo = '$id_photo' AND id_user = '$id_user'");
         header('location:detail_photo.php?id_photo=' . $id_photo . '?id_user=' . $id_user . '');
     }
-
 }

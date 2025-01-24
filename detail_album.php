@@ -17,6 +17,7 @@ if (!isset($_SESSION['id_user'])) {
     <title>
         <?php
         include('connection.php');
+        //Ambil data album untuk menampilkan nama album pada title
         if (isset($_GET['id_album'])) {
             $id_album = $_GET['id_album'];
             $sql = mysqli_query($conn, "SELECT * FROM album WHERE id_album = '$id_album'");
@@ -45,10 +46,11 @@ if (!isset($_SESSION['id_user'])) {
             <div class="w-[70em] p-4 rounded-lg">
                 <?php
                 include('connection.php');
+                //Ambil data album
                 if (isset($_GET['id_album'])) {
                     $id_album = $_GET['id_album'];
                     $sql = mysqli_query($conn, "SELECT * FROM album WHERE id_album = '$id_album'");
-
+                    //Looping untuk menampilkan album
                     while ($row = mysqli_fetch_array($sql)) {
                         ?>
                         <div class="flex flex-col gap-4">
@@ -58,11 +60,12 @@ if (!isset($_SESSION['id_user'])) {
                                 </h1>
                                 <h2 class="text-[#a6b1ae] mb-[1.5em]">Created by
                                     <?php
+                                    //Ambil data user yang memiliki album yang dipilih
                                     $id_album = mysqli_real_escape_string($conn, $_GET['id_album']);
                                     $sql = mysqli_query($conn, "SELECT * FROM album WHERE id_album = '$id_album'");
                                     while ($row = mysqli_fetch_array($sql)) {
                                         $sql = mysqli_query($conn, "SELECT album.*, user.username FROM album JOIN user ON album.id_user = user.id_user WHERE id_album = '$id_album'");
-
+                                        //Looping untuk menampilkan user
                                         while ($data = mysqli_fetch_array($sql)) {
                                             ?>
                                             <a href="detail_user.php?id_user=<?php echo $data['id_user']; ?>">
@@ -71,9 +74,6 @@ if (!isset($_SESSION['id_user'])) {
                                             <?php
                                         }
                                         ?> in
-                                        <?php
-
-                                        ?>
                                         <?= $row['date_created'] ?>
                                     </h2>
                                     <p class="text-[#E7F6F2] w-[50%]">
@@ -84,6 +84,7 @@ if (!isset($_SESSION['id_user'])) {
                                     ?>
                             </div>
                             <?php
+                            //Ambil data photo dari album yang dipilih
                             if (isset($_GET['id_album'])) {
                                 $id_album = mysqli_real_escape_string($conn, $_GET['id_album']);
                                 $sql = mysqli_query($conn, "SELECT photo.file_path, photo.id_photo, photo.id_user FROM album INNER JOIN photo ON album.id_album = photo.id_album WHERE album.id_album = '{$id_album}'");
@@ -92,6 +93,7 @@ if (!isset($_SESSION['id_user'])) {
                             <div
                                 class="w-[100%] p-[1em] border-2 border-[#395B64] rounded-md flex flex-wrap gap-[1em] justify-center items-center">
                                 <?php
+                                //Jika ada photo maka tampilkan photo
                                 if (mysqli_num_rows($sql) > 0) {
                                     while ($row = mysqli_fetch_array($sql)) {
                                         ?>
@@ -105,6 +107,7 @@ if (!isset($_SESSION['id_user'])) {
                                     ?>
                                 </div>
                                 <?php
+                                //Jika tidak ada photo maka tampilkan text
                                 } else {
                                     ?>
                                 <div

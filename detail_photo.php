@@ -15,7 +15,7 @@ if (!isset($_SESSION['id_user'])) {
     <title>
         <?php
         include('connection.php');
-
+        //Ambil data photo untuk menampilkan judul photo di title
         if (isset($_GET['id_photo'])) {
             $id_photo = $_GET['id_photo'];
             $sql = mysqli_query($conn, "SELECT * FROM photo WHERE id_photo = '$id_photo'");
@@ -42,9 +42,10 @@ if (!isset($_SESSION['id_user'])) {
                         <div class="w-1/2 flex flex-col">
                             <h1 class="text-[1.5em] text-[#E7F6F2] font-bold p-5 border-b-2 border-[#395B64]">
                                 <?php
+                                //Ambil username pembuat dari photo yang dipilih
                                 $id_photo = mysqli_real_escape_string($conn, $_GET['id_photo']);
                                 $sql = mysqli_query($conn, "SELECT photo.*, user.username FROM photo JOIN user ON photo.id_user = user.id_user WHERE id_photo = '$id_photo'");
-
+                                //Looping untuk menampilkan username
                                 while ($row = mysqli_fetch_array($sql)) {
                                     ?>
                                     <a href="detail_user.php?id_user=<?php echo $row['id_user']; ?>">
@@ -56,9 +57,10 @@ if (!isset($_SESSION['id_user'])) {
                             </h1>
                             <div class="p-5 border-b-2 border-[#395B64]">
                                 <?php
+                                //Ambil data photo yang dipilih
                                 $id_photo = mysqli_real_escape_string($conn, $_GET['id_photo']);
                                 $sql = mysqli_query($conn, "SELECT * FROM photo WHERE id_photo = '$id_photo'");
-
+                                //Looping untuk menampilkan data photo
                                 while ($row = mysqli_fetch_array($sql)) {
                                     ?>
                                     <h1 class="text-[1.5em] text-[#E7F6F2] font-bold">
@@ -70,6 +72,7 @@ if (!isset($_SESSION['id_user'])) {
                                     </p>
                                 </div>
                                 <?php
+                                //Ambil data comment dari photo yang dipilih
                                 $comment = mysqli_query($conn, "SELECT comment_photo.*, user.username FROM comment_photo JOIN user ON comment_photo.id_user = user.id_user WHERE id_photo = '$id_photo'");
 
                                 ?>
@@ -79,6 +82,7 @@ if (!isset($_SESSION['id_user'])) {
                                 <br>
                                 <div class="comment-scrollbar h-2/3 mx-5 overflow-auto">
                                     <?php
+                                    //Looping untuk menampilkan data comment
                                     while ($data = mysqli_fetch_array($comment)) {
                                         ?>
                                         <h1 class="text-[#E7F6F2] font-semibold">
@@ -97,22 +101,26 @@ if (!isset($_SESSION['id_user'])) {
                                 <div class="w-full h-[10em] border-t-2 border-[#395B64] flex flex-col">
                                     <div class="h-[40%] px-3 flex items-center gap-2">
                                         <?php
+                                        //Ambil data user
                                         $id_user = isset($_SESSION['id_user']) ? $_SESSION['id_user'] : null;
-                                        // Asumsikan $id_user sudah di-set dengan ID user yang login
+                                        //$id_user di-set dengan ID user yang login
                                         $likeCheck = mysqli_query($conn, "SELECT * FROM like_photo WHERE id_photo = '$id_photo' AND id_user = '$id_user'");
                                         $isLiked = mysqli_num_rows($likeCheck) > 0;
 
-                                        // Menghitung total likes pada foto
+                                        //Menghitung total likes pada foto
                                         $totalLikes = mysqli_query($conn, "SELECT COUNT(*) as total FROM like_photo WHERE id_photo = '$id_photo'");
                                         $likesRow = mysqli_fetch_assoc($totalLikes);
                                         $likesCount = $likesRow['total'];
                                         ?>
-                                        <?php if (!$isLiked): ?>
+                                        <?php
+                                        //Jika user belum like maka tampilkan icon heart-outline
+                                        if (!$isLiked): ?>
                                             <a
                                                 href="like_photo.php?id_photo=<?php echo $row['id_photo'] ?>&id_user=<?php echo $id_user; ?>">
                                                 <img src="./heart.png" alt="heart-outline" class="mx-[0.1em] w-[1.7em] h-[1.7em]">
                                             </a>
-                                        <?php else: ?>
+                                        <?php else: 
+                                        //Jika user sudah like maka tampilkan icon heart-filled?>
                                             <a
                                                 href="unlike_photo.php?id_photo=<?php echo $row['id_photo'] ?>&id_user=<?php echo $id_user; ?>">
                                                 <img src="./heart-filled.png" alt="heart-filled" class="mx-1 w-[1.42em] h-[1.5em]">
@@ -120,6 +128,7 @@ if (!isset($_SESSION['id_user'])) {
                                         <?php endif; ?>
                                         <?php
                                 }
+                                //Menampilkan jumlah like pada photo yang dipilih
                                 ?>
                                     <h1 class="text-[#E7F6F2] text-[0.875em] items-center">
                                         <?php echo $likesCount; ?> Likes

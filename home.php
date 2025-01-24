@@ -89,6 +89,7 @@ if (!isset($_SESSION['id_user'])) {
                 <div class="flex flex-wrap justify-center gap-[2em]">
                     <?php
                     include_once 'connection.php';
+                    //Query untuk menampilkan photo-photo secara acak
                     $sql = mysqli_query($conn, 'SELECT * FROM photo ORDER BY RAND()');
                     while ($data = mysqli_fetch_array($sql)) {
                         ?>

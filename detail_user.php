@@ -15,6 +15,7 @@ if (!isset($_SESSION['id_user'])) {
     <title>
         <?php
         include('connection.php');
+        //Ambil data user untuk menampilkan username pada title
         if (isset($_GET['id_user'])) {
             $id_user = $_GET['id_user'];
             $sql = mysqli_query($conn, "SELECT * FROM user WHERE id_user = '$id_user'");

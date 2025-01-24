@@ -94,10 +94,14 @@ if (!isset($_SESSION['id_user'])) {
                     <?php
                     include('connection.php');
                     $id_user = $_SESSION['id_user'];
+                    //Query untuk menampilkan album dari user
                     $sql = mysqli_query($conn, "SELECT * FROM album WHERE id_user = '$id_user'");
+                    //Jika tidak ada maka tampilkan text
                     if ($sql->num_rows == 0) {
                         echo '<h1 class="text-[#E7F6F2] italic">You have no albums</h1>';
+                    //Jika ada maka tampilkan album
                     } else {
+                        //Looping untuk menampilkan album
                         while ($row = mysqli_fetch_array($sql)) {
                             ?>
                             <div class="p-4"><a
@@ -121,10 +125,14 @@ if (!isset($_SESSION['id_user'])) {
                     <?php
                     include('connection.php');
                     $id_user = $_SESSION['id_user'];
+                    //Query untuk menampilkan photo dari user
                     $sql = mysqli_query($conn, "SELECT * FROM photo WHERE id_user = '$id_user'");
+                    //Jika tidak ada tampilkan text
                     if (mysqli_num_rows($sql) == 0) {
                         echo '<label class="text-[#E7F6F2] italic">No photos</label>';
+                    //Jika ada tampilkan photo
                     } else {
+                        //Looping untuk menampilkan photo
                         while ($row = mysqli_fetch_array($sql)) {
                             ?>
                             <div class="p-4 hover:scale-105 transition duration-[0.2s]"><a

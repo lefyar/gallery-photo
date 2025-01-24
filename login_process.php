@@ -10,7 +10,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Prepare a statement to select the user
+    // Prepare statement untuk select user
     $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -18,7 +18,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        // Use password_verify to compare the submitted password with the hashed password
+        // password_verify function untuk cek password yang dimasukkan dengan hash password
         if (password_verify($password, $row['password'])) {
             // Password is correct
             $_SESSION['id_user'] = $row['id_user'];

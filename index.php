@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         <?php include 'style.css'; ?>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
     </style>
 </head>
 
@@ -32,8 +33,9 @@
                 <h1 class="text-[#2C3333] text-[3em] font-bold">What is Gallery Photo?</h1>
                 <div class="flex items-center justify-center">
                     <p class="text-center">Gallery Photo is a "Digital Museum" Website where you can find and make
-                        your very own albums.<br>This is a place where you can upload anything you want, and creativity is your only limit.<br>
-                    Expand your imagination and Explore everything.</p>
+                        your very own albums.<br>This is a place where you can upload anything you want, and creativity
+                        is your only limit.<br>
+                        Expand your imagination and Explore everything.</p>
                 </div>
             </div>
             <div class="pt-[2em] pb-[3em] w-full flex justify-center items-center flex-col space-y-[3em] bg-[#E7F6F2]">
